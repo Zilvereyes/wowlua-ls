@@ -289,9 +289,8 @@ return { ---@type wowlua.plugin.Plugin
 
 Plugins run in a restricted Lua 5.1 environment:
 
-- **Standard library:** the Lua 5.1 standard library minus `os`, `io`, `debug`, `coroutine`, `loadfile`, `dofile`, `require`, `load`, and `collectgarbage`. Lua 5.1 has no `goto`, so skip loop iterations with nested `if` blocks.
-- **Protected calls:** `pcall` and `xpcall` handle ordinary Lua errors, but cannot catch or recover from the instruction limit.
-- **Instruction limit:** 1,000,000 instructions per plugin load and per file invocation. Exceeding this logs an error and skips the plugin.
+- **Standard library:** Lua 5.1 base functions plus `coroutine`, `string`, `table`, and `math`. Host-access and loading facilities such as `os`, `io`, `debug`, `package`, `loadfile`, `dofile`, `require`, `load`, and `collectgarbage` are unavailable. Lua 5.1 has no `goto`, so skip loop iterations with nested `if` blocks.
+- **Instruction limit:** 1,000,000 instructions per file per plugin. Exceeding this logs an error and skips the plugin for that file.
 - **Failure tolerance:** A plugin that fails 5 times in a row is automatically disabled until the LS is restarted.
 
 `print()` is available and outputs to the LS log via `[plugin]` prefix.
