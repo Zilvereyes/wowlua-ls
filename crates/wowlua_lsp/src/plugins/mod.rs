@@ -104,6 +104,7 @@ impl PluginEngine {
         let source = std::fs::read_to_string(path)
             .map_err(|e| format!("cannot read file: {e}"))?;
 
+        sandbox::reset_instruction_limit(lua);
         let chunk = lua.load(&source).set_name(path.to_string_lossy());
         let table: LuaTable = chunk.eval()
             .map_err(|e| format!("plugin must return a table: {e}"))?;
